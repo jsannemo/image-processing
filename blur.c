@@ -1,12 +1,13 @@
+#include <math.h>
+#include <assert.h>
 #include "image.h"
-#include "math.h"
-#include "assert.h"
+#include "blur.h"
 
 void gaussian_blur(png_image *img, int blur_sz, double sigma){
 	assert(blur_sz > 0);
 	int height = img->height;
 	int width = img->width;
-	printf("sigma is %lf\n", sigma); 
+	printf("sigma is %lf\n", sigma);
 	double matrix[blur_sz][blur_sz];
 	double sum = 0;
 	for(int i = 0; i<blur_sz; i++)
@@ -41,8 +42,8 @@ void gaussian_blur(png_image *img, int blur_sz, double sigma){
 			png_byte* row = img->row_pointers[i];
 			png_byte* ptr = &(row[j*4]);
 			for(int k = 0; k<4; k++){
-				ptr[k] = (int) (n[k]*q);	
+				ptr[k] = (int) (n[k]*q);
 			}
 
-		}	
+		}
 };

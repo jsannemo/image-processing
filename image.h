@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
-#include "png.h"
-#include "stdlib.h"
+#include <png.h>
+#include <stdlib.h>
 
 #define png_sig_sz 8
 
@@ -20,7 +20,7 @@ typedef struct {
 
 
 int read_png_image(char *file_name, png_image *img);
-int write_png_image(char *file_name, png_image *img); 
+int write_png_image(char *file_name, png_image *img);
 void clear_png_image(png_image *img);
 
 #endif

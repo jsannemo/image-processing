@@ -1,26 +1,26 @@
+#include <png.h>
 #include "image.h"
-#include "png.h"
 
 int read_png_image(char *file_name, png_image *img) {
 	/* read png header and compare to sig */
-	char header[8];
+	unsigned char header[8];
 
     FILE *fp = fopen(file_name, "rb");
     if (!fp){
-		printf("Could not open file for reading\n");        
+		printf("Could not open file for reading\n");
 		return 0;
 	}
     fread(header, 1, 8, fp);
     if (png_sig_cmp(header, 0, 8)){
-		printf("Not a PNG file\n");             
+		printf("Not a PNG file\n");
 		return 0;
 	}
 
 	/* initilize structures */
     img->png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	
+
     if (!img->png_ptr){
-		printf("Could not initialize read struct\n");	
+		printf("Could not initialize read struct\n");
 		return 0;
 	}
 
@@ -67,12 +67,12 @@ int read_png_image(char *file_name, png_image *img) {
 
 	/* ensure correct color type (only supports rgba) */
     if (png_get_color_type(img->png_ptr, img->info_ptr) == PNG_COLOR_TYPE_RGB){
-		printf("Wrong image type (missing alpha)\n");		
+		printf("Wrong image type (missing alpha)\n");
 		return 0;
 	}
 
     if (png_get_color_type(img->png_ptr, img->info_ptr) != PNG_COLOR_TYPE_RGBA){
-		printf("Wrong image type (not RGBA)\n");	     
+		printf("Wrong image type (not RGBA)\n");
        return 0;
 	}
 	return 1;
@@ -83,7 +83,7 @@ int write_png_image(char *file_name, png_image *img){
     FILE *fp = fopen(file_name, "wb");
     if (!fp){
 		printf("Could not open file for writing\n");
-		return 0;	
+		return 0;
 	}
 
     /* initialize structs */
@@ -91,15 +91,15 @@ int write_png_image(char *file_name, png_image *img){
 
     if (!png_ptr) {
 		printf("Could not create write struct\n");
-		return 0;	
+		return 0;
 	}
-            
+
     png_infop info_ptr = png_create_info_struct(png_ptr);
     if (!info_ptr){
 		printf("Could not create info struct\n");
-		return 0;		
+		return 0;
 	}
-	
+
     if (setjmp(png_jmpbuf(png_ptr))){
 		printf("Could not open IO\n");
 		return 0;
@@ -123,8 +123,8 @@ int write_png_image(char *file_name, png_image *img){
 
     /* write image data */
     if (setjmp(png_jmpbuf(png_ptr))){
-		printf("Could not write image data\n");		
-		return 0;	
+		printf("Could not write image data\n");
+		return 0;
 	}
 
     png_write_image(png_ptr, img->row_pointers);

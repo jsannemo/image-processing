@@ -4,7 +4,7 @@
 #include "image.h"
 
 void change_size(png_image *img, int nheight, int nwidth);
-int clip(png_image *img, int nheight, int nwidth, int y, int x);
+void clip(png_image *img, int nheight, int nwidth, int y, int x);
 
 
 #endif
