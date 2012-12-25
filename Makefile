@@ -1,16 +1,19 @@
 all: blur channel
 
-blur: blur.o image.o
-	cc -o blur image.o blur.o -lpng
+blur: blur_tool.o blur.o image.o
+	cc -o blur blur.o blur_tool.o image.o -lpng
 
-channel: channel.o
-	cc -o channel image.o channel.o -lpng
+channel: channel_tool.o
+	cc -o channel image.o channel_tool.o -lpng
 
-channel.o:
-	cc -c channel.c -std=gnu99
+channel_tool.o:
+	cc -c channel_tool.c -std=gnu99
+
+blur_tool.o:
+	cc -c blur_tool.c -std=gnu99
 
 blur.o:
-	cc -c blur.c -std=gnu99
+	cc -c blur.h blur.c -std=gnu99
 
 image.o:
 	cc -c image.h image.c -std=gnu99
