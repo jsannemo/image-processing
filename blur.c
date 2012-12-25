@@ -1,7 +1,9 @@
 #include "image.h"
 #include "math.h"
+#include "assert.h"
 
 void gaussian_blur(png_image *img, int blur_sz, double sigma){
+	assert(blur_sz > 0);
 	int height = img->height;
 	int width = img->width;
 	printf("sigma is %lf\n", sigma); 
