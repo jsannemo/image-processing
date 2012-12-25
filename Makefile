@@ -31,5 +31,4 @@ resize.o:
 clean:
 	rm -f *.o
 	rm -f *.gch
-	rm -f blur
-	rm -f channel
+	rm -f blur channel resize

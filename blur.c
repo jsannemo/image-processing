@@ -26,22 +26,22 @@ void gaussian_blur(png_image *img, int blur_sz, double sigma){
 		for(int j = 0; j<width; j++){
 			double n[4];
 			memset(n, 0, sizeof(n));
-			int count = 0;
+			double nrm = 0;
 			for(int r = 0; r<blur_sz; r++)
 				for(int c = 0; c<blur_sz; c++){
 					int nr = i + r - (blur_sz/2);
  					int nc = j + c - (blur_sz/2);
 					if(nr < 0 || nc < 0 || nr >= height || nc >= width) continue;
-					count++; 
 					png_byte* row = img->row_pointers[nr];
 					png_byte* ptr = &(row[nc*4]);
+					nrm += matrix[r][c];
 					for(int k = 0; k<4; k++) n[k] += ptr[k]*matrix[r][c];
 				}
-			
+			double q = 1.0/nrm;
 			png_byte* row = img->row_pointers[i];
 			png_byte* ptr = &(row[j*4]);
 			for(int k = 0; k<4; k++){
-				ptr[k] = (int) (n[k]);	
+				ptr[k] = (int) (n[k]*q);	
 			}
 
 		}	
